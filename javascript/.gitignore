@@ -1,0 +1,9 @@
+node_modules
+bower_components
+output
+
+/purescript/purescript-book
+/purescript/**/.gitignore
+.psci*
+.webpack.js
+.browserify-cache.json
