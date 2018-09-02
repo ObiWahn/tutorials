@@ -1,0 +1,184 @@
+% vim: syntax=wiki2tex
+== Introduction ==
+=== What is CMake ===
+==== What is CMake ====
+-- 0.1 cm --
+CMake is a Cross Platform Makefile Genrator
+-- 0.1 cm --
+* Current Version: 3.2.1
+* Operation Systems: \\ Windows, Linux, BSD
+* Generators available for: \\ make, Visual Studio, Xcode, eclipse, CodeBlocks, ...
+-- 0.5 cm --
+=== Where is it used ===
+==== Where is it used ====
+-- 0.1 cm --
+* Projects using CMake: \\ llvm/clang, Qt, KDE, blender, weechat, HPX, ...
+* In general, software that requires to be build on different Operating Systems
+=== Building with CMake ===
+==== Building with CMake ====[fragile]
+-- 0.1 cm --
+<[center]
+<[nowiki]
+\begin{lstlisting}[language=sh]
+cd build/dir
+cmake ../path/to/source
+make -j 12 && make install
+\end{lstlisting}
+[nowiki]>
+[center]>
+== Using CMake ==
+=== Command Line ===
+==== Command Line ====[fragile]
+-- 0.1 cm --
+<[center]
+<[nowiki]
+\begin{lstlisting}[language=sh]
+# VERBOSE=1 cmake
+# cmake -DCMAKE_BUILD_TYPE=Release ../src
+# cmake -G "Visual Studio 14 2015 Win64" ../src
+\end{lstlisting}
+[nowiki]>
+[center]>
+=== Simple CMakeLists.txt ===
+==== Simple CMakeLists.txt ====[fragile]
+-- 0.1 cm --
+<[center]
+<[nowiki]
+\begin{lstlisting}[caption=Minimal CMakeLists.txt from doc.qt.io, basicstyle=\tiny\ttfamily, language=sh]
+cmake_minimum_required(VERSION 2.8.11)
+
+project(testproject)
+
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# Instruct CMake to run moc automatically when needed.
+set(CMAKE_AUTOMOC ON)
+
+# Find the QtWidgets library
+find_package(Qt5Widgets)
+
+# Tell CMake to create the helloworld executable
+add_executable(helloworld WIN32 main.cpp)
+
+# Use the Widgets module from Qt 5.
+target_link_libraries(helloworld Qt5::Widgets)
+\end{lstlisting}
+[nowiki]>
+[center]>
+=== CMakeLanguage ===
+==== Variables \ Lists ====[fragile]
+* Pass in variables with -Dvar=value as shown before
+* Types: FILEPATH;PATH;STRING;BOOL;INTERNAL
+<[center]
+<[nowiki]
+\begin{lstlisting}[caption=, language=sh]
+set(light ON)
+set(level "up")           - does not touch cache / hides cache
+set(power OFF CACHE BOOL) - cached var
+set(ENV{PATH} /home/user/.bin)
+unset(var)
+set(foolist foo1 foo2 foo3)
+set(foolist ${foolist} foo4)
+list(APPEND foolist foo5)
+\end{lstlisting}
+[nowiki]>
+[center]>
+==== add executable / add library ====[fragile]
+<[center]
+<[nowiki]
+\begin{lstlisting}[caption=, language=sh]
+add_executable(helloworld WIN32 main.cpp util.cpp)
+add_library(dw detlef.cpp iris.cpp nils.cpp jan.cpp)
+
+set(uhde_src hansjork.cpp renate.cpp wiebke.cpp jan.cpp)
+set(uhde        DYNAMIC ${uhde_src})
+set(uhde-static STATIC  ${uhde_src})
+set_target_properties(uhde-static PROPERTIES OUTPUT_NAME "uhde")
+\end{lstlisting}
+[nowiki]>
+[center]>
+==== Control Structures (if) ====[fragile]
+<[center]
+<[nowiki]
+\begin{lstlisting}[caption=, language=sh]
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    message(STATUS "Build is Debug type")
+elsif(WEATHER STREQUAL "sunny")
+    message(STATUS "No Debug - At leaset the weather is good")
+else()
+    message(STATUS "Sorry you are doomed:(")
+endif()
+\end{lstlisting}
+[nowiki]>
+[center]>
+==== Control Structures (foreach / while)====[fragile]
+<[center]
+<[nowiki]
+\begin{lstlisting}[caption=, language=sh]
+foreach(item ${items})
+    something_something_darkside(${item})
+endforeach(item)
+
+foreach(loop_var RANGE total)
+foreach(loop_var RANGE start stop [step])
+
+while(TRUE)
+    message(WARNING "Groundhog Day")
+endwhile(TRUE)
+\end{lstlisting}
+[nowiki]>
+[center]>
+==== target link libraries ====[fragile]
+<[center]
+<[nowiki]
+\begin{lstlisting}[caption=, language=sh]
+add_library(EGG STATIC egg.cpp)
+add_library(HEN STATIC hen.cpp )
+message(STATUS "Some developers lost sanity over this project")
+target_link_libraries(EGG HEN)
+target_link_libraries(HEN EGG)
+add_executable(chicken main.cpp)
+target_link_libraries(chicken EGG PRIVATE -lfarmer) 
+\end{lstlisting}
+[nowiki]>
+[center]>
+==== find package ====[fragile]
+<[center]
+<[nowiki]
+\begin{lstlisting}[caption=, language=sh]
+find_package(Boost COMPONENTS system filesystem REQUIRED)
+if(Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIR})
+    link_directories(${Boost_LIBRARY_DIR})
+    add_executable(main main.cpp)
+    target_link_libraries(main ${Boost_LIBRARIES})
+endif()
+\end{lstlisting}
+[nowiki]>
+[center]>
+==== More Commands ====[fragile]
+* include
+* add subdirectory
+* target include directories (PUBLIC|PRIVATE)
+* string (REGEX, SUBSTR, COMPARE, UUID, SHA512, TOLOW)
+* add custom target
+%%==== something ====[fragile]
+%%<[center]
+%%<[nowiki]
+%%\begin{lstlisting}[caption=, language=sh]
+%%something
+%%\end{lstlisting}
+%%[nowiki]>
+%%[center]>
+==== Fun Facts ====[fragile]
+* We have just scratched the surface
+* If you plan to generate Visual Studio Projects include headers
+* Ugly? - Yes!!
+* Possibly one of the best there is (scons? somebody?)
+* Questions?
+=== Resources ===
+==== Resources ====
+* http://www.cmake.org/cmake/help/v3.2/
+* \#cmake@irc.freenode.net (ask ngladitz)
+* "Mastering CMake" as an introduction
+* https://github.com/ObiWahn/powershell-cmake-wrapper \\(not stable - maybe some day)

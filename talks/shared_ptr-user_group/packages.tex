@@ -1,0 +1,84 @@
+
+%\usepackage{listings}
+\usepackage[utf8]{inputenc}
+\usepackage{array}
+\usepackage[T1]{fontenc}
+
+\usepackage{fancyvrb}
+\usepackage{float}
+
+%graphics packge
+\usepackage{graphicx}	% extended graphics package
+\graphicspath{{../graphics/}} % set graphics path
+
+\usepackage{textcomp}
+%\usepackage{color}
+
+
+\usepackage{listings}
+%\lstset{numbers=left, numberstyle=\tiny, numbersep=5pt, language={}, basicstyle=\footnotesize, stringstyle=\ttfamily, showstringspaces=false, frame=tb}
+%\lstset{numbers=left, numberstyle=\tiny, numbersep=5pt, language={}, basicstyle=\tiny, stringstyle=\ttfamily, showstringspaces=false, frame=tb}
+
+\usepackage[absolute,overlay]{textpos}
+
+\usepackage{xcolor}
+\definecolor{commentcolor}{rgb}{0, 0.5, 0}
+\definecolor{keywordcolor}{rgb}{0, 0, 0.82}
+\definecolor{stringcolor}{rgb}{0.82, 0, 0}
+
+\usepackage{listings}
+\lstset{
+  numbers=left,
+  numberstyle=\tiny,
+  numbersep=5mm,
+  numberblanklines=true,
+  language=c++,
+  keywordstyle=\textbf,
+  basicstyle=\footnotesize\ttfamily,
+  xleftmargin=7mm,
+  frame=none,
+  framesep=2mm,
+  commentstyle=\color{commentcolor},
+  keepspaces=true,
+  columns=flexible,
+  keywordstyle=\color{keywordcolor},
+  showspaces=false,
+  showstringspaces=false,
+  stringstyle=\color{stringcolor},
+  tabsize=4,
+  escapeinside={(*@}{@*)}
+}
+%% 
+%% \lstset{
+%%   numbers=left,
+%%   numberstyle=\tiny,
+%%   numbersep=5mm,
+%%   numberblanklines=true,
+%%   language=c++,
+%%   keywordstyle=\textbf,
+%%   basicstyle=\footnotesize\ttfamily,
+%%   xleftmargin=7mm,
+%%   frame=none,
+%%   framesep=2mm,
+%%   commentstyle=\color{commentcolor},
+%%   keepspaces=true,
+%%   columns=flexible,
+%%   keywordstyle=\color{keywordcolor},
+%%   showspaces=false,
+%%   showstringspaces=false,
+%%   stringstyle=\color{stringcolor},
+%%   tabsize=4,
+%%   escapeinside={(*@}{@*)}
+%% }
+%% 
+%% 
+
+
+\lstloadlanguages{C}
+
+\usepackage{caption}
+\captionsetup{labelformat=empty,labelsep=none}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,positioning,fit,shapes}
+

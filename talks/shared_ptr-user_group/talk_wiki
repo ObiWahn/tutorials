@@ -1,0 +1,68 @@
+% vim: syntax=wiki2tex
+== shared\_ptr (Okay then... that's it!) ==
+=== shared\_ptr ===
+==== shared\_ptr - manage shared memory ====
+-- 0.1 cm --
+* about twice the size of plain pointer
+* extra allocation for refcount (make\_shared)
+* atomic ref counting (Reel 2 Real)
+* custom deleter per instance
+* const shared\_ptr are awesome
+* static functions for atomic access (atomic\_load())
+* shared\_ptr aliasing constructor (point to member)
+=== weak\_ptr ===
+==== weak\_ptr - the companion ====
+-- 0.1 cm --
+* does not prevent deletion
+* does not increase refcount (obviously - just saying)
+* usage: break cycles / implement caches
+* expired() and lock()
+=== shared\_from\_this() ===
+==== shared\_from\_this() ====[fragile]
+-- 0.1 cm --
+* objects must be created as shared\_ptr
+* use builder pattern (or static factory function) \\ to enforce correct usage
+* C++17 yields more and better errors
+=== finally some code ===
+==== finally some code ====[fragile]
+<[center]
+<[nowiki]
+\begin{lstlisting}[language=c++]
+class connection :
+  public std::enable_shared_from_this<connection> {
+    connection() = default; // construct with a friend
+    startWrite();
+    handleWrite(error const&
+               ,size_t tranferred
+               ,shared_ptr<RequestItem>
+               );
+  public:
+    send_request(std::unique_ptr<message>
+                ,callback on_succ
+                ,callback on_err
+                );
+}
+\end{lstlisting}
+[nowiki]>
+[center]>
+=== final slide ===
+==== final slide ====[fragile]
+<[center]
+<[nowiki]
+\begin{lstlisting}[language=c++]
+connection::startWrite(){
+  // ... prepare ...
+  auto self = shared_from_this();
+  auto data = next->_requestBuffer; 
+  ba::async_write(*_socket
+                 ,ba::buffer(data.data(),data.byteSize())
+                 ,[this,self,next](BoostEC const& error
+								  ,std::size_t transferred
+								  ){
+                    this->handleWrite(error,transferred, next);
+                  }
+                 );
+}
+\end{lstlisting}
+[nowiki]>
+[center]>

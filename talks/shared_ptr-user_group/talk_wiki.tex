@@ -1,0 +1,127 @@
+
+
+% vim: syntax=wiki2tex
+
+\section{shared\_ptr (Okay then... that's it!)}
+
+
+
+\subsection{shared\_ptr}
+
+
+\begin{frame}
+ \frametitle{shared\_ptr - manage shared memory}
+  
+
+
+\vspace{ 0.1 cm }
+
+\begin{itemize}
+  \item about twice the size of plain pointer
+  \item extra allocation for refcount (make\_shared)
+  \item atomic ref counting (Reel 2 Real)
+  \item custom deleter per instance
+  \item const shared\_ptr are awesome
+  \item static functions for atomic access (atomic\_load())
+  \item shared\_ptr aliasing constructor (point to member)
+\end{itemize}
+  
+\end{frame}
+
+\subsection{weak\_ptr}
+
+
+\begin{frame}
+ \frametitle{weak\_ptr - the companion}
+  
+
+
+\vspace{ 0.1 cm }
+
+\begin{itemize}
+  \item does not prevent deletion
+  \item does not increase refcount (obviously - just saying)
+  \item usage: break cycles / implement caches
+  \item expired() and lock()
+\end{itemize}
+  
+\end{frame}
+
+\subsection{shared\_from\_this()}
+
+
+\begin{frame}[fragile]
+ \frametitle{shared\_from\_this()}
+  
+
+
+\vspace{ 0.1 cm }
+
+\begin{itemize}
+  \item objects must be created as shared\_ptr
+  \item use builder pattern (or static factory function) \\ to enforce correct usage
+  \item C++17 yields more and better errors
+\end{itemize}
+  
+\end{frame}
+
+\subsection{finally some code}
+
+
+\begin{frame}[fragile]
+ \frametitle{finally some code}
+  
+
+\begin{center}
+
+\begin{lstlisting}[language=c++]
+class connection :
+  public std::enable_shared_from_this<connection> {
+    connection() = default; // construct with a friend
+    startWrite();
+    handleWrite(error const&
+               ,size_t tranferred
+               ,shared_ptr<RequestItem>
+               );
+  public:
+    send_request(std::unique_ptr<message>
+                ,callback on_succ
+                ,callback on_err
+                );
+}
+\end{lstlisting}
+
+\end{center}
+  
+\end{frame}
+
+\subsection{final slide}
+
+
+\begin{frame}[fragile]
+ \frametitle{final slide}
+  
+
+\begin{center}
+
+\begin{lstlisting}[language=c++]
+connection::startWrite(){
+  // ... prepare ...
+  auto self = shared_from_this();
+  auto data = next->_requestBuffer;
+  ba::async_write(*_socket
+                 ,ba::buffer(data.data(),data.byteSize())
+                 ,[this,self,next](BoostEC const& error
+								  ,std::size_t transferred
+								  ){
+                    this->handleWrite(error,transferred, next);
+                  }
+                 );
+}
+\end{lstlisting}
+
+\end{center}
+
+  
+\end{frame}
+

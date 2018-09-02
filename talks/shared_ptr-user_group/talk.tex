@@ -1,0 +1,51 @@
+\documentclass[compress]{beamer}
+%\usetheme{Warsaw}
+\usetheme{Frankfurt}
+\setbeamertemplate{blocks}[rounded][shadow=true]
+
+%\usepackage{beamerthemesplit}
+\setbeamercovered{transparent}
+\input{packages}
+
+\graphicspath{{graphics/}}
+
+\title{shared\_ptr (Klaatu... Barada... N... *cough*)}
+
+\author[Jan Christoph Uhde]{Jan Christoph Uhde\\{\vspace{0.5cm} \tiny supervisor:\\Detlef Wilkening}}
+\date{2017-03-05}
+
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+
+\defbeamertemplate*{footline}{shadow theme}
+{%
+  \leavevmode%
+  \hbox{\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm plus1fil,rightskip=.3cm]{author in head/foot}%
+    %\usebeamerfont{author in head/foot}\insertframenumber\,/\,\inserttotalframenumber\hfill\insertshortauthor
+    \usebeamerfont{author in head/foot}\hfill\insertshortauthor
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm plus1fil]{title in head/foot}%
+    %\usebeamerfont{title in head/foot}\insertshorttitle%
+    \usebeamerfont{title in head/foot}\insertshorttitle\hfill\insertframenumber\,/\,\inserttotalframenumber%
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+\begin{document}
+\frame{\titlepage}
+%\section[Overview]{}
+%\frame{\tableofcontents}
+
+\input{talk_wiki}
+
+\end{document}
